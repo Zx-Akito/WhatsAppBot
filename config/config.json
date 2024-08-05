@@ -1,0 +1,9 @@
+{
+    "name": "StickerBot",
+    "author": "By ZxAkito",
+    "prefix": ".",
+    "timezone": "Asia/Jakarta",
+    "groups": true,
+    "log": true,
+    "ownerId": "62895400233001@c.us"
+}
