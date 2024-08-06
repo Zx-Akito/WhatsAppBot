@@ -39,18 +39,18 @@ client.on('ready', () => {
 
     // Jadwalkan pengiriman pesan
     scheduleMessages([
-        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Rifki!' },
-        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Galuh!' },
-        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Wildan!' },
-        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Rifki!' },
-        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Galuh!' },
-        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Wildan!' },
-        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Rifki!' },
-        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Galuh!' },
-        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Wildan!' },
-        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Rifki!' },
-        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Galuh!' },
-        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Wildan!' }
+        { time: '08:00:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Rifki!' },
+        { time: '08:00:05', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Galuh!' },
+        { time: '08:00:10', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Wildan!' },
+        { time: '12:00:05', groupId: '120363177308785364@g.us', message: 'Selamat siang, Rifki!' },
+        { time: '12:00:10', groupId: '120363177308785364@g.us', message: 'Selamat siang, Galuh!' },
+        { time: '12:00:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Wildan!' },
+        { time: '17:00:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Rifki!' },
+        { time: '17:00:05', groupId: '120363177308785364@g.us', message: 'Selamat sore, Galuh!' },
+        { time: '17:00:10', groupId: '120363177308785364@g.us', message: 'Selamat sore, Wildan!' },
+        { time: '22:00:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Rifki!' },
+        { time: '22:00:05', groupId: '120363177308785364@g.us', message: 'Selamat malam, Galuh!' },
+        { time: '22:00:10', groupId: '120363177308785364@g.us', message: 'Selamat malam, Wildan!' }
     ]);
 });
 
@@ -129,10 +129,11 @@ const markChatAsSeen = async (message) => {
 // Fungsi untuk menjadwalkan beberapa pengiriman pesan ke grup
 const scheduleMessages = (messages) => {
     messages.forEach(({ time, groupId, message }) => {
-        const [hour, minute] = time.split(':');
+        const [hour, minute, second] = time.split(':');
         const rule = new schedule.RecurrenceRule();
         rule.hour = parseInt(hour);
         rule.minute = parseInt(minute);
+        rule.second = parseInt(second);
         rule.tz = config.timezone;
 
         schedule.scheduleJob(rule, async () => {
