@@ -39,24 +39,20 @@ client.on('ready', () => {
     });
 
     // Jadwalkan pengiriman pesan
-    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Rifki!');
-    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Galuh!');
-    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Wildan!');
-
-    // Jadwalkan pengiriman pesan
-    scheduleMessage('12:00', '120363177308785364@g.us', 'Selamat siang, Rifki!');
-    scheduleMessage('12:00', '120363177312785364@g.us', 'Selamat siang, Galuh!');
-    scheduleMessage('12:00', '120363177312785364@g.us', 'Selamat siang, Wildan!');
-
-    // Jadwalkan pengiriman pesan
-    scheduleMessage('17:00', '120363177308785364@g.us', 'Selamat sore, Rifki!');
-    scheduleMessage('17:00', '120363177312785364@g.us', 'Selamat sore, Galuh!');
-    scheduleMessage('17:00', '120363177312785364@g.us', 'Selamat sore, Wildan!');
-
-    // Jadwalkan pengiriman pesan
-    scheduleMessage('22:00', '120363177308785364@g.us', 'Selamat malam, Rifki!');
-    scheduleMessage('22:00', '120363177312785364@g.us', 'Selamat malam, Galuh!');
-    scheduleMessage('22:00', '120363177312785364@g.us', 'Selamat malam, Wildan!');
+    scheduleMessages([
+        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Rifki!' },
+        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Galuh!' },
+        { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Wildan!' },
+        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Rifki!' },
+        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Galuh!' },
+        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Wildan!' },
+        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Rifki!' },
+        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Galuh!' },
+        { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Wildan!' },
+        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Rifki!' },
+        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Galuh!' },
+        { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Wildan!' }
+    ]);
 });
 
 client.on('message', async message => {
@@ -86,13 +82,14 @@ const handleStickerCreation = async (message) => {
                 stickerName: config.name,
                 stickerAuthor: config.author
             });
-            await client.sendMessage(message.from, "Success to create sticker!");
+            console.log(message.from.yellow, "Success to create sticker!".green);
         } else {
             await client.sendMessage(message.from, "Reply with an image to create a sticker!");
         }
     } catch (error) {
         console.error(error);
         await client.sendMessage(message.from, "Failed to create sticker!");
+        console.log(message.from.yellow, "Failed to create sticker!".red);
     }
 };
 
@@ -102,7 +99,8 @@ const handleStickerToImage = async (message) => {
         const media = await getMediaFromMessage(message);
         if (media) {
             await client.sendMessage(message.from, media);
-            await client.sendMessage(message.from, "Success to convert sticker!");
+            await client.sendMessage(message.from, "Success to convert image!");
+            console.log(message.from.red, "Success to convert image!");
         }
     } catch (error) {
         console.error(error);
@@ -129,21 +127,25 @@ const markChatAsSeen = async (message) => {
     await chat.sendSeen();
 };
 
-// Fungsi untuk menjadwalkan pengiriman pesan ke grup
-const scheduleMessage = (time, groupId, message) => {
-    const [hour, minute] = time.split(':');
-    const rule = new schedule.RecurrenceRule();
-    rule.hour = parseInt(hour);
-    rule.minute = parseInt(minute);
-    rule.tz = config.timezone;
+// Fungsi untuk menjadwalkan beberapa pengiriman pesan ke grup
+const scheduleMessages = (messages) => {
+    messages.forEach(({ time, groupId, message }) => {
+        const [hour, minute] = time.split(':');
+        const rule = new schedule.RecurrenceRule();
+        rule.hour = parseInt(hour);
+        rule.minute = parseInt(minute);
+        rule.tz = config.timezone;
 
-    schedule.scheduleJob(rule, async () => {
-        try {
-            await client.sendMessage(groupId, message);
-            console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Message sent to group ${groupId}`);
-        } catch (error) {
-            console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Failed to send message to group ${groupId}:`, error);
-        }
+        console.log(`Scheduling message "${message}" to be sent at ${time} to group ${groupId}`);
+
+        schedule.scheduleJob(rule, async () => {
+            try {
+                await client.sendMessage(groupId, message);
+                console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Message sent to group ${groupId}: ${message}`.green);
+            } catch (error) {
+                console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Failed to send message to group ${groupId}:`.red, error);
+            }
+        });
     });
 };
 
