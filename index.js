@@ -33,30 +33,38 @@ client.on('ready', () => {
         if (err) {
             console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Console Text not found!`.yellow);
         } else {
-            console.log(data.green);
+            console.log(data.blue);
         }
         console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] ${config.name} is Ready!`.green);
     });
 
-    // Jadwalkan pesan setiap jam 8 pagi WIB
-    const rule = new schedule.RecurrenceRule();
-    rule.tz = config.timezone;
-    rule.hour = 8;
-    rule.minute = 0;
+    // Jadwalkan pengiriman pesan
+    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Rifki!');
+    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Galuh!');
+    scheduleMessage('08:00', '120363177308785364@g.us', 'Selamat pagi, Wildan!');
 
-    const groupId = '120363177308785364@g.us'; // Ganti dengan ID chat tujuan
-    schedule.scheduleJob(rule, () => {
-        client.sendMessage(groupId, "Selamat pagi Rifki!");
-        client.sendMessage(groupId, "Selamat pagi Galuh!");
-        client.sendMessage(groupId, "Selamat pagi Wildan!");
-    });
+    // Jadwalkan pengiriman pesan
+    scheduleMessage('12:00', '120363177308785364@g.us', 'Selamat siang, Rifki!');
+    scheduleMessage('12:00', '120363177312785364@g.us', 'Selamat siang, Galuh!');
+    scheduleMessage('12:00', '120363177312785364@g.us', 'Selamat siang, Wildan!');
+
+    // Jadwalkan pengiriman pesan
+    scheduleMessage('17:00', '120363177308785364@g.us', 'Selamat sore, Rifki!');
+    scheduleMessage('17:00', '120363177312785364@g.us', 'Selamat sore, Galuh!');
+    scheduleMessage('17:00', '120363177312785364@g.us', 'Selamat sore, Wildan!');
+
+    // Jadwalkan pengiriman pesan
+    scheduleMessage('22:00', '120363177308785364@g.us', 'Selamat malam, Rifki!');
+    scheduleMessage('22:00', '120363177312785364@g.us', 'Selamat malam, Galuh!');
+    scheduleMessage('22:00', '120363177312785364@g.us', 'Selamat malam, Wildan!');
 });
 
 client.on('message', async message => {
     const isGroup = message.from.endsWith('@g.us');
+    console.log(message.from);
     if (!isGroup && !config.groups) return;
 
-    switch (message.body) {
+    switch (message.body.toLowerCase()) {
         case `${config.prefix}sticker`:
             handleStickerCreation(message);
             break;
@@ -121,28 +129,22 @@ const markChatAsSeen = async (message) => {
     await chat.sendSeen();
 };
 
-// Fungsi untuk mengunduh video YouTube
-const downloadYouTubeVideo = async (url) => {
-    try {
-        const info = await ytdl.getInfo(url);
-        const title = info.videoDetails.title;
-        const stream = ytdl(url, { filter: 'audioandvideo' });
-        const filePath = path.join(__dirname, 'downloads', `${title}.mp4`);
+// Fungsi untuk menjadwalkan pengiriman pesan ke grup
+const scheduleMessage = (time, groupId, message) => {
+    const [hour, minute] = time.split(':');
+    const rule = new schedule.RecurrenceRule();
+    rule.hour = parseInt(hour);
+    rule.minute = parseInt(minute);
+    rule.tz = config.timezone;
 
-        // Buat direktori jika belum ada
-        if (!fs.existsSync(path.dirname(filePath))) {
-            fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    schedule.scheduleJob(rule, async () => {
+        try {
+            await client.sendMessage(groupId, message);
+            console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Message sent to group ${groupId}`);
+        } catch (error) {
+            console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Failed to send message to group ${groupId}:`, error);
         }
-
-        return new Promise((resolve, reject) => {
-            stream.pipe(fs.createWriteStream(filePath))
-                .on('finish', () => resolve(filePath))
-                .on('error', reject);
-        });
-    } catch (error) {
-        console.error('Error downloading video:', error);
-        throw error;
-    }
+    });
 };
 
 client.initialize();
