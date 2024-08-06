@@ -5,7 +5,6 @@ const schedule = require('node-schedule');
 const colors = require('colors');
 const fs = require('fs');
 const path = require('path');
-const ytdl = require('ytdl-core');
 
 const client = new Client({
     restartOnAuthFail: true,
@@ -27,16 +26,16 @@ client.on('qr', qr => {
 });
 
 client.on('ready', () => {
-    console.clear();
-    const consoleTextPath = path.join(__dirname, 'config', 'console.txt');
-    fs.readFile(consoleTextPath, 'utf-8', (err, data) => {
-        if (err) {
-            console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Console Text not found!`.yellow);
-        } else {
-            console.log(data.green);
-        }
-        console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] ${config.name} is Ready!`.green);
-    });
+    console.clear()
+    // const consoleTextPath = path.join(__dirname, 'config', 'console.txt');
+    // fs.readFile(consoleTextPath, 'utf-8', (err, data) => {
+    //     if (err) {
+    //         console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Console Text not found!`.yellow);
+    //     } else {
+    //         console.log(data.green);
+    //     }
+    // });
+    console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] ${config.name} is Ready!`.green);
 
     // Jadwalkan pengiriman pesan
     scheduleMessages([
