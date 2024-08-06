@@ -34,6 +34,7 @@ client.on('ready', () => {
         { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Rifki Sayang!' },
         { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Rifki Sayang!' },
         { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Rifki Sayang!' },
+        { time: '00:00', groupId: '120363177308785364@g.us', message: 'Udah malem, cepet tidur ga!' },
     ]);
 });
 
