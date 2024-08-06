@@ -98,8 +98,7 @@ const handleStickerToImage = async (message) => {
         const media = await getMediaFromMessage(message);
         if (media) {
             await client.sendMessage(message.from, media);
-            await client.sendMessage(message.from, "Success to convert image!");
-            console.log(message.from.red, "Success to convert image!");
+            console.log(message.from.yellow, "Success to convert image!".green);
         }
     } catch (error) {
         console.error(error);
