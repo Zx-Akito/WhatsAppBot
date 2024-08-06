@@ -33,7 +33,7 @@ client.on('ready', () => {
         if (err) {
             console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] Console Text not found!`.yellow);
         } else {
-            console.log(data.blue);
+            console.log(data.green);
         }
         console.log(`[${moment().tz(config.timezone).format('HH:mm:ss')}] ${config.name} is Ready!`.green);
     });
