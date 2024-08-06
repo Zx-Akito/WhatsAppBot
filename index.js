@@ -136,8 +136,6 @@ const scheduleMessages = (messages) => {
         rule.minute = parseInt(minute);
         rule.tz = config.timezone;
 
-        console.log(`Scheduling message "${message}" to be sent at ${time} to group ${groupId}`);
-
         schedule.scheduleJob(rule, async () => {
             try {
                 await client.sendMessage(groupId, message);
