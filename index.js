@@ -38,6 +38,25 @@ client.on('ready', () => {
     ]);
 });
 
+client.on('message', async message => {
+    const isGroup = message.from.endsWith('@g.us');
+    console.log(message.from);
+    if (!isGroup && !config.groups) return;
+
+    switch (message.body.toLowerCase()) {
+        case `${config.prefix}ping`:
+            if (message.author === config.ownerId) checkPing(message);
+        break;
+    }
+});
+
+const checkPing = async (message) => {
+    const startTime = Date.now();
+    await client.sendMessage(message.from, 'Pong!');
+    const latency = Date.now() - startTime;
+    await client.sendMessage(message.from, `Latency: ${latency} ms`);
+}
+
 // Fungsi untuk menjadwalkan beberapa pengiriman pesan ke grup
 const scheduleMessages = (messages) => {
     messages.forEach(({ time, groupId, message }) => {
