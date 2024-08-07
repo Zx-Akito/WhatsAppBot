@@ -67,7 +67,7 @@ client.on('message', async message => {
             handleStickerToImage(message);
         break;
         case `${config.prefix}ping`:
-            if (message,author === config.ownerId) checkPing(message);
+            if (message.author === config.ownerId) checkPing(message);
         default:
             markChatAsSeen(message);
     }
