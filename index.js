@@ -65,11 +65,20 @@ client.on('message', async message => {
             break;
         case `${config.prefix}image`:
             handleStickerToImage(message);
-            break;
+        break;
+        case `${config.prefix}ping`:
+            if (message,author === config.ownerId) checkPing(message);
         default:
             markChatAsSeen(message);
     }
 });
+
+const checkPing = async (message) => {
+    const startTime = Date.now();
+    await client.sendMessage(message.from, 'Pong!');
+    const latency = Date.now() - startTime;
+    await client.sendMessage(message.from, `Latency: ${latency} ms`);
+}
 
 // Function to create sticker
 const handleStickerCreation = async (message) => {
