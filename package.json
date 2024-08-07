@@ -1,22 +1,26 @@
 {
-  "name": "whatsapp-bot",
+  "name": "wabotv2",
   "version": "1.0.0",
-  "description": "whatsapp bot",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
-  "author": "Rifki Nurmansyah",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0",
-    "ffmpeg": "^0.0.4",
-    "fs": "^0.0.1-security",
-    "moment-timezone": "^0.5.45",
-    "node-schedule": "^2.1.1",
-    "qrcode-terminal": "^0.12.0",
-    "redis": "^4.7.0",
-    "whatsapp-web.js": "^1.17.1"
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "pepesan": "github:mqad21/pepesan",
+    "redis": "^4.6.15",
+    "redist": "^0.2.0",
+    "string-template": "^1.0.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "session/*"
+    ]
   }
 }

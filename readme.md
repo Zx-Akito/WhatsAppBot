@@ -1,15 +1,22 @@
-## How to run
+# WhatsApp BOT
 
-First install the packages
-`npm i`
+Starter Project untuk membuat project WhatsApp BOT dengan menggunakan library [Pepesan](https://github.com/mqad21/pepesan) dan [Baileys](https://github.com/WhiskeySockets/Baileys)
 
-Then  
-`npm update`
-`npm update puppeteer`
+Dengan menggunakan library Pepesan, pembuatan BOT WhatsApp jauh lebih mudah dan ringkas. Kesulitan utama dalam pembuatan BOT WhatsApp adalah meminta BOT untuk mengingat dia sedang dalam menu apa (pengaturan state), nah dengan menggunakan library Pepesan ini, kesulitan itu sudah bisa teratasi. 
 
-Now launch server  
-`npm start`
-    
-  
-**Note**: This repo is using __LocalAuth__ strategy which won't be applicable if you are using hosts with ephemeral file systems. So if you're using one, you would be asked to scan QR whenever you start or restart the server.
-For more Details see https://wwebjs.dev/guide/authentication.html
+Teman-teman tinggal ikuti saja syntax dari library pepesan untuk membuat BOT WhatsApp, proses pembuatan BOT WhatsApp akan lebih mudah.
+
+## Cara Install
+
+1. buat file .env dengan cara berikut
+```
+cp .env.example .env
+```
+2. install dependency
+```
+npm install
+```
+3. jalankan bot
+```
+npm run dev
+```
