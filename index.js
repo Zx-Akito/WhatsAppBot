@@ -31,7 +31,7 @@ client.on('ready', () => {
     // Jadwalkan pengiriman pesan
     scheduleMessages([
         { time: '08:00', groupId: '120363177308785364@g.us', message: 'Selamat pagi, Rifki Sayang!' },
-        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, Rifki Sayang!' },
+        { time: '12:00', groupId: '120363177308785364@g.us', message: 'Selamat siang, jangan lupa makan ya Rifki Sayang!' },
         { time: '17:00', groupId: '120363177308785364@g.us', message: 'Selamat sore, Rifki Sayang!' },
         { time: '22:00', groupId: '120363177308785364@g.us', message: 'Selamat malam, Rifki Sayang!' },
         { time: '00:00', groupId: '120363177308785364@g.us', message: 'Udah malem, cepet tidur ga!' },
